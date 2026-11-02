@@ -1,0 +1,33 @@
+name: CI React App
+
+# Disparadores: Se ejecuta en cada push o pull request dirigido a la rama main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # Entorno: máquina Linux limpia
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Descargar el código del repositorio
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # 2. Configurar Node.js (versión 18 o 20 recomendada)
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Instalar las dependencias
+      - name: Instalar dependencias
+        run: npm install
+
+      # 4. Ejecutar el script de empaquetado y comprobación
+      - name: Compilar aplicación (Build)
+        run: npm run build
